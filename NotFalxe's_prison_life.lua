@@ -5,15 +5,16 @@ local Window = Library.CreateLib("Prison Life", "Midnight")
 local Main = Window:NewTab("Main")
 local MainSection = Main:NewSection('Main')
 MainSection:NewDropdown("Give Gun", "Gives Player Gun", {"M9", "Remington 870", "AK-47"}, function(v)
-local A_1 = game:GetService('Workspace')['Prison_ITEMS'].giver[v]
-    
+    local A_1 = game:GetService('Workspace')['Prison_ITEMS'].giver[v].ITEMPICKUP
+    local Event = game:GetService('Workspace').Remote.itemHandler
+    Event:InvokeServer(A_1)
 end)
 
 
 
 -- PLAYER
 local Player = Window:NewTab("Player")
-local PlayerSection = Tab:NewSection("Player")
+local PlayerSection = Player:NewSection("Player")
 PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk.", 250, 16, function(v) -- 500 (MaxValue) | 0 (MinValue)
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
 end)
