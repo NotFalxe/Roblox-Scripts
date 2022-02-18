@@ -1,3 +1,5 @@
+notif('Created by NotFalxe. Enjoy!', 5)
+
 local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua'))()
 local Window = Library.CreateLib('Prison Life', 'Midnight')
 
@@ -61,10 +63,6 @@ PlayerSection:NewSlider('JumpPower', 'Changes how high you jump.', 250, 50, func
     game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
 end)
 
-playersec:NewToggle("Noclip","Allows you to walk through wall",function(state)
-    getgenv().noclip = state
+playersec:NewToggle('Noclip','Allows you to walk through wall.', function(v)
+    game.Players.LocalPlayer.Character.Humanoid:ChangeState(11) = v
 end)
-
-
---//END
-notif('Created by NotFalxe. Enjoy!', 5)
