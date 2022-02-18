@@ -61,8 +61,8 @@ PlayerSection:NewSlider('JumpPower', 'Changes how high you jump.', 250, 50, func
     game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
 end)
 
-PlayerSection:NewKeybind('Noclip (press f on keyboard)', 'Lets you walk through walls', Enum.KeyCode.F, function()
-	game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+playersec:NewToggle("Noclip","Allows you to walk through wall",function(state)
+    getgenv().noclip = state
 end)
 
 
