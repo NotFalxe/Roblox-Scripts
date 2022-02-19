@@ -32,6 +32,18 @@ MainSection:NewButton('Give All Items','Gives all items to the localplayer', fun
 end)
 
 
+MainSection:NewButton("Remove Doors","Removes All Doors",function()
+    game.Workspace.Doors:Destroy()
+    game.Workspace.Prison_Cellblock.doors:Destroy()
+    local Warehouses = game.Workspace.Warehouses
+    for i,v in pairs(Warehouses:GetDescendants()) do
+        if v.Name == "doors" then
+           v:Destroy()
+        end
+    end
+end)
+
+
 -- TEAMS
 
 MainSection:NewDropdown('Change Team','Changes your team',{'Criminal','Neutral','Guard','Inmate'},function(v)
@@ -61,34 +73,6 @@ PlayerSection:NewSlider('JumpPower', 'Changes how high you jump.', 250, 50, func
     game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
 end)
 
-PlayerSection:NewToggle('Noclip (PRESS E)','Allows you to walk through wall.', function(v)
-    
-    
-    noclip = false
-    game:GetService('RunService').Stepped:connect(function()
-    if noclip then
-    game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-    end
-    end)
-    plr = game.Players.LocalPlayer
-    mouse = plr:GetMouse()
-    mouse.KeyDown:connect(function(key)
-    if key == "e" then
-    noclip = not noclip
-    game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-    end
-    end)
-    game.StarterGui:SetCore("SendNotification", {
-    Title = "Noclip";
-    Text = "Loaded.";
-    Duration = "10";
-    })
-    wait(1)
-    game.StarterGui:SetCore("SendNotification", {
-    Title = "Noclip";
-    Text = "Press E To Noclip";
-    Duration = "10";
-    }) = v
-
-
+PlayerSection:NewToggle("Super Punch","Kills anyone with one punch",function(state)
+    getgenv().onepunch = state
 end)
