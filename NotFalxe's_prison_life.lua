@@ -32,6 +32,13 @@ MainSection:NewButton('Give All Items','Gives all items to the localplayer', fun
 end)
 
 
+MainSection:NewDropdown('Give Guns', 'Gives the localplayer guns.', {'M9', 'Remington 870', 'AK-47'}, function(v)
+    local A_1 = game:GetService('Workspace')['Prison_ITEMS'].giver[v].ITEMPICKUP
+    local Event = game:GetService('Workspace').Remote.ItemHandler
+    Event:InvokeServer(A_1)
+end)
+
+
 MainSection:NewButton("Remove Doors","Removes All Doors",function()
     game.Workspace.Doors:Destroy()
     game.Workspace.Prison_Cellblock.doors:Destroy()
