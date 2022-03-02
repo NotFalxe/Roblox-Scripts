@@ -405,9 +405,9 @@ function prison_life()
 
 
 
-    -- YESSIR WE ARE BACK TO MM@
+    -- YESSIR WE ARE BACK TO MM2
 
-# MM2
+-- MM2
 
 function MM2()
     local Window = Library.CreateLib("Falxe's MM2", 'Midnight')
@@ -435,7 +435,7 @@ function MM2()
 
 
 
-    MainSection:NewToggle('Murder & Sherrif ESP', 'Gives murder and sheriff esp.'function()
+    MainSection:NewToggle('Murder & Sherrif ESP', 'Gives murder and sheriff esp.', function()
         function getChance()
         local Event = game:GetService("ReplicatedStorage").GetChance
         chance = Event:InvokeServer()[1]
@@ -541,7 +541,7 @@ function MM2()
 
 
 
-    PlayerSection:NewTextBox("WalkSpeed",'Changes your WalkSpeed.', function(txt)
+    PlayerSection:NewTextBox('WalkSpeed','Changes your WalkSpeed.', function(txt)
         getgenv().changedwalkspeed = true
         if tonumber(txt) then
             getgenv().walkspeed = tonumber(txt)
@@ -643,8 +643,8 @@ function MM2()
 
     -- MISC
 
-    MiscSection:NewToggle('Give Fake Gun', 'Gives you fake gun.', false, function(omg)
-        getgenv().trinkets = omg
+    MiscSection:NewToggle('Give Fake Gun', 'Gives you fake gun.', false, function(s)
+        getgenv().trinkets = s
     if getgenv().trinkets then
     game:GetService("ReplicatedStorage").Remotes.Gameplay.FakeGun:FireServer(omg)
     else
