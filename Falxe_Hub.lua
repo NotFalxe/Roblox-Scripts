@@ -632,6 +632,13 @@ function MM2()
         local Target = game:GetService("ReplicatedStorage").PlayEmote;
         Target:Fire(string_1);
     end)
+
+
+    EmotesSection:NewButton('Headless', 'Makes you do the headless emote.', function()
+        local string_1 = 'headless';
+        local Target = game:GetService("ReplicatedStorage").PlayEmote;
+        Target:Fire(string_1);
+    end)
 end
 
 
