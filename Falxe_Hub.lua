@@ -377,7 +377,7 @@ function prison_life()
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = plr.Character.HumanoidRootPart.CFrame
         end
     end)
-
+end
 
 
 
@@ -632,7 +632,7 @@ function MM2()
         local Target = game:GetService("ReplicatedStorage").PlayEmote;
         Target:Fire(string_1);
     end)
-
+end
 
 
 
@@ -642,16 +642,6 @@ function MM2()
 
 
     -- MISC
-
-    MiscSection:NewToggle('Give Fake Gun', 'Gives you fake gun.', false, function(s)
-        getgenv().trinkets = s
-    if getgenv().trinkets then
-    game:GetService("ReplicatedStorage").Remotes.Gameplay.FakeGun:FireServer(omg)
-    else
-    game:GetService("ReplicatedStorage").Remotes.Gameplay.FakeGun:FireServer(false)
-    end
-    end)
-    
 
 
 
