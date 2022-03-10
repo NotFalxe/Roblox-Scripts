@@ -410,7 +410,7 @@ end
 
 -- MM2
 
-function mm2()
+function MM2()
     local Window = Library.CreateLib("Falxe's MM2", 'Midnight')
 
 
@@ -536,6 +536,64 @@ function mm2()
         wait()
         game:service'ReplicatedStorage'.CrateComplete:FireServer()
     end)
+
+    if getgenv().CreateESP then
+    CreateESP()
+    end
+
+
+    function CreateESP(plr)
+  
+        if plr ~= nil then
+            
+            local GetChar = plr.Character
+            if not GetChar then return end
+            
+            local GetHead do
+                
+                repeat wait() until GetChar:FindFirstChild("Head")
+                
+            end
+            GetHead = GetChar.Head        
+            
+            local bb = Instance.new("BillboardGui", Important.CoreGui)
+            bb.Adornee = GetHead
+            bb.ExtentsOffset = Vector3.new(0, 1, 0)
+            bb.AlwaysOnTop = true
+            bb.Size = UDim2.new(0, 5, 0, 5)
+            bb.StudsOffset = Vector3.new(0, 3, 0)
+            bb.Name = "ESP_PLAYER_" .. plr.Name
+      
+            local displayframe = Instance.new("Frame", bb)
+            displayframe.ZIndex = 10
+            displayframe.BackgroundTransparency = 1
+            displayframe.Size = UDim2.new(1,0,1,0)
+            
+            local name = Instance.new("TextLabel", displayframe)
+            name.Name = "Name"
+            name.ZIndex = 10
+            name.Text = plr.Name
+            name.Visible = true
+            name.TextColor3 = Color3.new(255, 0, 255)
+            name.BackgroundTransparency = 1
+            name.Size = UDim2.new(1,0,10,0)
+            name.Font = Enum.Font.SourceSansLight
+            name.TextSize = 20
+            name.TextStrokeTransparency = .5
+            
+        end    
+    end
+
+
+
+
+
+    MainSection:NewToggle('All ESP', 'Shows ESP for everyone.', function()
+        getgenv().CreateESP
+    end)
+
+
+    
 
 
 
@@ -677,5 +735,5 @@ end
 if game.PlaceId == 155615604 then
     prison_life()
 elseif game.PlaceId == 142823291 then
-    mm2()
+    MM2()
 end
