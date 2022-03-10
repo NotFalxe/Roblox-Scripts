@@ -405,11 +405,12 @@ end
 
 
 
+
     -- YESSIR WE ARE BACK TO MM2
 
 -- MM2
 
-function MM2()
+function mm2()
     local Window = Library.CreateLib("Falxe's MM2", 'Midnight')
 
 
@@ -523,7 +524,18 @@ function MM2()
             getgenv().TpDelay = 2
         loadstring(game:HttpGet("https://gist.githubusercontent.com/TurkOyuncu99/6cbdf3cd3182d2889d2af766da9a2286/raw/3b3872fa207a24a6e78fc4b5a07c37cead7842df/casgg"))()
     end
-    end)    
+    end)
+
+
+
+    MainSection:NewDropdown('Open Crates', 'Opens crates/boxes', {'KnifeBox1', 'KnifeBox2', 'KnifeBox3', 'KnifeBox4', 'KnifeBox5', 'MLGBox'}, function(autobox))
+        local args = {
+        [1] = autobox
+        }
+        game:service'ReplicatedStorage'.Remotes.Shop.OpenCrate:InvokeServer(unpack(args))
+        wait()
+        game:service'ReplicatedStorage'.CrateComplete:FireServer()
+    end)
 
 
 
@@ -541,19 +553,14 @@ function MM2()
 
 
 
-    PlayerSection:NewTextBox('WalkSpeed','Changes your WalkSpeed.', function(txt)
-        getgenv().changedwalkspeed = true
-        if tonumber(txt) then
-            getgenv().walkspeed = tonumber(txt)
-        end
+    PlayerSection:NewSlider('WalkSpeed', 'Changes how fast you walk.', 250, 16, function(v) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
     end)
-    
-    PlayerSection:NewTextBox('JumpPower','Changes your JumpPower.', function(txt)
-        getgenv().changedjumppower = true
-        if tonumber(txt) then
-            getgenv().jumppower = tonumber(txt)
-        end
+
+    PlayerSection:NewSlider('JumpPower', 'Changes how high you jump.', 250, 50, function(v) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
     end)
+
 
     PlayerSection:NewButton('God Mode', 'Gives you God Mode.', function()
         game.Players.LocalPlayer.Character.Humanoid:Remove()
@@ -561,7 +568,11 @@ function MM2()
         game:GetService("Workspace")[game.Players.LocalPlayer.Name]:FindFirstChildOfClass('Humanoid').HipHeight = 2
     end)
 
-    PlayerSection:NewButton('Invisible', 'Makes you invisible.', function()
+    PlayerSection:NewButton('Invisible + GodMode', 'Makes you invisible and God Mode.', function()
+        game.Players.LocalPlayer.Character.Humanoid:Remove()
+        Instance.new('Humanoid', game.Players.LocalPlayer.Character)
+        game:GetService("Workspace")[game.Players.LocalPlayer.Name]:FindFirstChildOfClass('Humanoid').HipHeight = 2
+        wait(0.30)
         game.Players.LocalPlayer.Character.RightUpperArm:Destroy()
         game.Players.LocalPlayer.Character.LeftUpperArm:Destroy()
         game.Players.LocalPlayer.Character.LeftLowerArm:Destroy()
@@ -581,6 +592,17 @@ function MM2()
         game.Players.LocalPlayer.Character.LowerTorso:Destroy()
         game.Players.LocalPlayer.Character.UpperTorso:Destroy()
         game.Players.LocalPlayer.Character.Head:Destroy()
+    end)
+    end)
+
+
+    PlayerSection:NewToggle('Noclip', 'Allows you to noclip, or otherwise called walk through walls.', function()
+        getgenv().trinkets = bool
+    game:GetService("RunService").RenderStepped:Connect(function()
+    if getgenv().trinkets then
+        game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+    end
+    end)
     end)
 
 
@@ -634,13 +656,6 @@ function MM2()
     end)
 
 
-    EmotesSection:NewButton('Headless', 'Makes you do the headless emote.', function()
-        local string_1 = 'headless';
-        local Target = game:GetService("ReplicatedStorage").PlayEmote;
-        Target:Fire(string_1);
-    end)
-end
-
 
 
 
@@ -651,6 +666,9 @@ end
     -- MISC
 
 
+end
+
+
 
 
 
@@ -659,5 +677,5 @@ end
 if game.PlaceId == 155615604 then
     prison_life()
 elseif game.PlaceId == 142823291 then
-    MM2()
+    mm2()
 end
