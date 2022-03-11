@@ -528,7 +528,7 @@ function MM2()
 
 
 
-    MainSection:NewDropdown('Open Crates', 'Opens crates/boxes', {'KnifeBox1', 'KnifeBox2', 'KnifeBox3', 'KnifeBox4', 'KnifeBox5', 'MLGBox'}, function(autobox))
+    MainSection:NewDropdown('Open Crates', 'Opens crates/boxes', {'KnifeBox1', 'KnifeBox2', 'KnifeBox3', 'KnifeBox4', 'KnifeBox5', 'MLGBox'}, function(autobox)
         local args = {
         [1] = autobox
         }
@@ -589,7 +589,7 @@ function MM2()
 
 
     MainSection:NewToggle('All ESP', 'Shows ESP for everyone.', function()
-        getgenv().CreateESP
+        CreateEsp()
     end)
 
 
@@ -650,7 +650,6 @@ function MM2()
         game.Players.LocalPlayer.Character.LowerTorso:Destroy()
         game.Players.LocalPlayer.Character.UpperTorso:Destroy()
         game.Players.LocalPlayer.Character.Head:Destroy()
-    end)
     end)
 
 
