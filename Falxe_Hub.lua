@@ -537,54 +537,42 @@ function MM2()
         game:service'ReplicatedStorage'.CrateComplete:FireServer()
     end)
 
-    if getgenv().CreateESP then
-    CreateESP()
-    end
 
-
-    function CreateESP(plr)
-  
-        if plr ~= nil then
-            
-            local GetChar = plr.Character
-            if not GetChar then return end
-            
-            local GetHead do
-                
-                repeat wait() until GetChar:FindFirstChild("Head")
-                
+    function findplayers() --Find all players but local player
+        espMurderer() --Finds murderer
+        espSheriff() --Finds sheriff
+        local colors1 = 0
+        local colors2 = 255
+        local colors3 = 0
+        for i, v in pairs(game:GetService("Players"):GetChildren()) do
+            if v ~= game:GetService("Players").LocalPlayer then --If not local player
+                if v.Name ~= murderer then --If not murderer
+                    if v.Name ~= sheriff then --If not sheriff
+                        if espnames == true then
+                            local teamname = v.Name
+                            if v.Character.Head ~= nil then --Tried to failproof to stop printing nil
+                                Create(v.Character.Head, false, colors1 ,colors2, colors3, teamname)
+                            else
+                                if printvar == true then
+                                    print("Head missing from sheriff!")
+                                end
+                            end
+                        elseif espnames == false then
+                            local teamname = "Innocents"
+                            if v.Parent.Head ~= nil then --Tried to failproof to stop printing nil
+                                Create(v.Character.Head, false, colors1 ,colors2, colors3, teamname)
+                            else
+                                if printvar == true then
+                                    print("Head missing from sheriff!")
+                                end
+                            end
+                        end
+                    end
+                end
             end
-            GetHead = GetChar.Head        
-            
-            local bb = Instance.new("BillboardGui", Important.CoreGui)
-            bb.Adornee = GetHead
-            bb.ExtentsOffset = Vector3.new(0, 1, 0)
-            bb.AlwaysOnTop = true
-            bb.Size = UDim2.new(0, 5, 0, 5)
-            bb.StudsOffset = Vector3.new(0, 3, 0)
-            bb.Name = "ESP_PLAYER_" .. plr.Name
-      
-            local displayframe = Instance.new("Frame", bb)
-            displayframe.ZIndex = 10
-            displayframe.BackgroundTransparency = 1
-            displayframe.Size = UDim2.new(1,0,1,0)
-            
-            local name = Instance.new("TextLabel", displayframe)
-            name.Name = "Name"
-            name.ZIndex = 10
-            name.Text = plr.Name
-            name.Visible = true
-            name.TextColor3 = Color3.new(255, 0, 255)
-            name.BackgroundTransparency = 1
-            name.Size = UDim2.new(1,0,10,0)
-            name.Font = Enum.Font.SourceSansLight
-            name.TextSize = 20
-            name.TextStrokeTransparency = .5
-            
-        end    
+        end
     end
-
-
+    
 
 
 
@@ -663,6 +651,15 @@ function MM2()
     end)
 
 
+    PlayerSection:NewToggle('Invisible', 'Makes you invisible.', function(omg)
+        getgenv().trinkets = omg
+    if getgenv().trinkets then
+    game:GetService("ReplicatedStorage").Remotes.Gameplay.Stealth:FireServer(omg)
+    else
+    game:GetService("ReplicatedStorage").Remotes.Gameplay.Stealth:FireServer(false)
+    end
+    end)
+
 
 
 
@@ -712,6 +709,12 @@ function MM2()
         Target:Fire(string_1);
     end)
 
+    EmotesSection:NewButton('Headless', 'Makes you do the headless emote.', function()
+        local string_1 = 'headless';
+        local Target = game:GetService("ReplicatedStorage").PlayEmote;
+        Target:Fire(string_1);
+    end)
+
 
 
 
@@ -721,9 +724,9 @@ function MM2()
 
 
     -- MISC
-
-
-end
+    MiscSection:NewButton('Tp to gun', 'Teleports you to the gun.' function()
+        game.Workspace.GunDrop.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(2,0,0)
+    end)
 
 
 
