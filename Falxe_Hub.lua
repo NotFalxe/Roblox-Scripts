@@ -724,12 +724,12 @@ function MM2()
 
 
     -- MISC
-    MiscSection:NewButton('Tp to gun', 'Teleports you to the gun.' function()
+    MiscSection:NewButton('Tp to gun', 'Teleports you to the gun.', function()
         game.Workspace.GunDrop.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(2,0,0)
     end)
 
 
-
+end
 
 
 
