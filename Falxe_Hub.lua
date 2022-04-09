@@ -208,85 +208,79 @@ function prison_life()
 
 
     PlayerSection:NewButton('Fly (Flight [E])','Allows you to fly', function()
-        repeat wait()
-        until game.Players.LocalPlayer and game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:findFirstChild('Torso') and game.Players.LocalPlayer.Character:findFirstChild('Humanoid')
-        local mouse = game.Players.LocalPlayer:GetMouse()
-        repeat wait() until mouse
-        local plr = game.Players.LocalPlayer
-        local torso = plr.Character.Torso
-        local deb = true
-        local ctrl = {f = 0, b = 0, l = 0, r = 0}
-        local lastctrl = {f = 0, b = 0, l = 0, r = 0}
-        local maxspeed = 50
-        local speed = 0
-        
-        function Fly()
-            local bg = Instance.new('BodyGyro', torso)
-            bg.P = 9e4
-            bg.maxTorque = Vector3.new(9e9, 9e9, 9e9)
-            bg.cframe = torso.CFrame
-            local bv = Instance.new('BodyVelocity', torso)
-            bv.velocity = Vector3.new(0,0.1,0)
-            bv.maxForce = Vector3.new(9e9, 9e9, 9e9)
-            repeat wait()
-            plr.Character.Humanoid.PlatformStand = true
-            if ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0 then
-            speed = speed+.5+(speed/maxspeed)
-            if speed > maxspeed then
-            speed = maxspeed
-            end
-            elseif not (ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0) and speed ~= 0 then
-            speed = speed-1
-            if speed < 0 then
-            speed = 0
-            end
-            end
-            if (ctrl.l + ctrl.r) ~= 0 or (ctrl.f + ctrl.b) ~= 0 then
-            bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (ctrl.f+ctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(ctrl.l+ctrl.r,(ctrl.f+ctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed
-            lastctrl = {f = ctrl.f, b = ctrl.b, l = ctrl.l, r = ctrl.r}
-            elseif (ctrl.l + ctrl.r) == 0 and (ctrl.f + ctrl.b) == 0 and speed ~= 0 then
-            bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lastctrl.f+lastctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lastctrl.l+lastctrl.r,(lastctrl.f+lastctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed
-            else
-            bv.velocity = Vector3.new(0,0.1,0)
-            end
-            bg.cframe = game.Workspace.CurrentCamera.CoordinateFrame * CFrame.Angles(-math.rad((ctrl.f+ctrl.b)*50*speed/maxspeed),0,0)
-            until not flying
-            ctrl = {f = 0, b = 0, l = 0, r = 0}
-            lastctrl = {f = 0, b = 0, l = 0, r = 0}
-            speed = 0
-            bg:Destroy()
-            bv:Destroy()
-            plr.Character.Humanoid.PlatformStand = false
-            end
-            mouse.KeyDown:connect(function(key)
-            if key:lower() == 'e' then
-            if flying then flying = false
-            else
-            flying = true
-            Fly()
-            end
-            elseif key:lower() == 'w' then
-            ctrl.f = 1
-            elseif key:lower() == 's' then
-            ctrl.b = -1
-            elseif key:lower() == 'a' then
-            ctrl.l = -1
-            elseif key:lower() == 'd' then
-            ctrl.r = 1
+        function FLY()
+            FLYING = true
+            local BG = Instance.new('BodyGyro')
+            local BV = Instance.new('BodyVelocity')
+            BG.P = 9e4
+            BG.Parent = T
+            BV.Parent = T
+            BG.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+            BG.cframe = T.CFrame
+            BV.velocity = Vector3.new(0, 0, 0)
+            BV.maxForce = Vector3.new(9e9, 9e9, 9e9)
+            task.spawn(function()
+                repeat wait()
+                    if not vfly and Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid') then
+                        Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid').PlatformStand = true
+                    end
+                    if CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0 or CONTROL.Q + CONTROL.E ~= 0 then
+                        SPEED = 50
+                    elseif not (CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0 or CONTROL.Q + CONTROL.E ~= 0) and SPEED ~= 0 then
+                        SPEED = 0
+                    end
+                    if (CONTROL.L + CONTROL.R) ~= 0 or (CONTROL.F + CONTROL.B) ~= 0 or (CONTROL.Q + CONTROL.E) ~= 0 then
+                        BV.velocity = ((workspace.CurrentCamera.CoordinateFrame.lookVector * (CONTROL.F + CONTROL.B)) + ((workspace.CurrentCamera.CoordinateFrame * CFrame.new(CONTROL.L + CONTROL.R, (CONTROL.F + CONTROL.B + CONTROL.Q + CONTROL.E) * 0.2, 0).p) - workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+                        lCONTROL = {F = CONTROL.F, B = CONTROL.B, L = CONTROL.L, R = CONTROL.R}
+                    elseif (CONTROL.L + CONTROL.R) == 0 and (CONTROL.F + CONTROL.B) == 0 and (CONTROL.Q + CONTROL.E) == 0 and SPEED ~= 0 then
+                        BV.velocity = ((workspace.CurrentCamera.CoordinateFrame.lookVector * (lCONTROL.F + lCONTROL.B)) + ((workspace.CurrentCamera.CoordinateFrame * CFrame.new(lCONTROL.L + lCONTROL.R, (lCONTROL.F + lCONTROL.B + CONTROL.Q + CONTROL.E) * 0.2, 0).p) - workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+                    else
+                        BV.velocity = Vector3.new(0, 0, 0)
+                    end
+                    BG.cframe = workspace.CurrentCamera.CoordinateFrame
+                until not FLYING
+                CONTROL = {F = 0, B = 0, L = 0, R = 0, Q = 0, E = 0}
+                lCONTROL = {F = 0, B = 0, L = 0, R = 0, Q = 0, E = 0}
+                SPEED = 0
+                BG:Destroy()
+                BV:Destroy()
+                if Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid') then
+                    Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid').PlatformStand = false
+                end
+            end)
         end
-    end)
-        mouse.KeyUp:connect(function(key)
-        if key:lower() == 'w' then
-        ctrl.f = 0
-        elseif key:lower() == 's' then
-        ctrl.b = 0
-        elseif key:lower() == 'a' then
-        ctrl.l = 0
-        elseif key:lower() == 'd' then
-        ctrl.r = 0
-        end
+        flyKeyDown = IYMouse.KeyDown:Connect(function(KEY)
+            if KEY:lower() == 'w' then
+                CONTROL.F = (vfly and vehicleflyspeed or iyflyspeed)
+            elseif KEY:lower() == 's' then
+                CONTROL.B = - (vfly and vehicleflyspeed or iyflyspeed)
+            elseif KEY:lower() == 'a' then
+                CONTROL.L = - (vfly and vehicleflyspeed or iyflyspeed)
+            elseif KEY:lower() == 'd' then 
+                CONTROL.R = (vfly and vehicleflyspeed or iyflyspeed)
+            elseif QEfly and KEY:lower() == 'e' then
+                CONTROL.Q = (vfly and vehicleflyspeed or iyflyspeed)*2
+            elseif QEfly and KEY:lower() == 'q' then
+                CONTROL.E = -(vfly and vehicleflyspeed or iyflyspeed)*2
+            end
+            pcall(function() workspace.CurrentCamera.CameraType = Enum.CameraType.Track end)
         end)
-        Fly()
+        flyKeyUp = IYMouse.KeyUp:Connect(function(KEY)
+            if KEY:lower() == 'w' then
+                CONTROL.F = 0
+            elseif KEY:lower() == 's' then
+                CONTROL.B = 0
+            elseif KEY:lower() == 'a' then
+                CONTROL.L = 0
+            elseif KEY:lower() == 'd' then
+                CONTROL.R = 0
+            elseif KEY:lower() == 'e' then
+                CONTROL.Q = 0
+            elseif KEY:lower() == 'q' then
+                CONTROL.E = 0
+            end
+        end)
+        FLY()
     end)
 
 
@@ -522,7 +516,7 @@ function MM2()
         getgenv().CoinFarm = v
         if getgenv().CoinFarm then
             getgenv().TpDelay = 2
-        loadstring(game:HttpGet("https://gist.githubusercontent.com/TurkOyuncu99/6cbdf3cd3182d2889d2af766da9a2286/raw/3b3872fa207a24a6e78fc4b5a07c37cead7842df/casgg"))()
+        loadstring(game:HttpGet('https://gist.githubusercontent.com/TurkOyuncu99/6cbdf3cd3182d2889d2af766da9a2286/raw/3b3872fa207a24a6e78fc4b5a07c37cead7842df/casgg'))()
     end
     end)
 
@@ -641,13 +635,9 @@ function MM2()
     end)
 
 
-    PlayerSection:NewToggle('Noclip', 'Allows you to noclip, or otherwise called walk through walls.', function()
-        getgenv().trinkets = bool
-    game:GetService("RunService").RenderStepped:Connect(function()
-    if getgenv().trinkets then
-        game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-    end
-    end)
+    PlayerSection:NewButton('Noclip [GUI]', 'Allows you to noclip, or otherwise called walk through walls.', function()
+        nclip = loadstring(game:HttpGet('https://pastebin.com/raw/9LBsfRkD'))()
+        print(nclip)
     end)
 
 
@@ -660,6 +650,15 @@ function MM2()
     end
     end)
 
+
+PlayerSection:NewToggle('Infinite Jump', 'Gives you infinite jumps', function()
+    local InfiniteJumpEnabled = true
+    game:GetService("UserInputService").JumpRequest:connect(function()
+        if InfiniteJumpEnabled then
+            game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
+        end
+    end)
+end)
 
 
 
